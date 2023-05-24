@@ -18,6 +18,7 @@ function showNotes() {
     .then((res) => {
       const notes = res.data.recados;
       totalPages = res.data.pages;
+      addPagesNumbers();
       document.getElementById("total").innerText = res.data.total + " recados";
       notes.forEach((note) => {
         container.innerHTML += `<div class="cardNote"><span>${note.titulo}</span><span>${note.descricao}</span></div>`;
@@ -41,4 +42,19 @@ function nextPage() {
     page++;
     showNotes();
   }
+}
+
+function addPagesNumbers() {
+  let containerPagination = document.getElementById("pagesNumbers");
+  containerPagination.innerHTML = "";
+  Array.from(Array(totalPages).keys()).forEach((pageNumber) => {
+    containerPagination.innerHTML += `<button onclick="changePageNumber(${
+      pageNumber + 1
+    })">${pageNumber + 1}</button>`;
+  });
+}
+
+function changePageNumber(newPageNumber) {
+  page = newPageNumber;
+  showNotes();
 }
